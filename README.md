@@ -1,50 +1,89 @@
-# React + TypeScript + Vite
+# Secure Chat Application Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend client for a secure chat application that provides real-time messaging with encryption and user status features.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Real-time messaging interface
+- End-to-end encryption using AES
+- User presence detection (online/offline status)
+- Typing indicators
+- Message read receipts
+- Clean and responsive UI built with React and Tailwind CSS
+- User inactivity detection
 
-## Expanding the ESLint configuration
+## Technical Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React.js with TypeScript
+- Socket.IO Client for real-time communication
+- CryptoJS for message encryption/decryption
+- Tailwind CSS for styling
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Clone the repository
+2. Install dependencies:
+   ```
+   yarn install
+   ```
+3. Start the development server:
+   ```
+   yarn dev
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Security Implementation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+The application implements end-to-end encryption using AES:
+- Messages are encrypted on the sender's device
+- Only encrypted messages are transmitted over the network
+- Messages are decrypted on the recipient's device
+- The encryption key is hardcoded as `SECRET_KEY` (in a production environment, this should be handled more securely)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## User Interface
+
+### Login Screen
+- Simple username entry to join the chat
+- Clean gradient background
+
+### Main Chat Interface
+- User list with online/offline indicators and last seen timestamps
+- Message bubbles with timestamps and read receipts
+- Real-time typing indicators
+- Message input area with send button
+
+## User Experience Features
+
+1. **User Status:**
+   - Online/offline status indicators
+   - "Last seen" timestamps for offline users
+
+2. **Message Status:**
+   - Sent indicators (single checkmark)
+   - Read indicators (double checkmark)
+
+3. **Activity Tracking:**
+   - Automatically detects user activity (mouse movement, keyboard input, clicks)
+   - Sets user to offline after 5 minutes of inactivity
+
+4. **Visual Feedback:**
+   - Selected user is highlighted in the user list
+   - Messages from the current user appear on the right side in blue
+   - Messages from other users appear on the left side in white
+   - Typing indicators show when someone is composing a message
+
+## State Management
+
+The application manages several key pieces of state:
+- Current user information
+- List of available users and their status
+- Selected conversation
+- Message history organized by conversation
+- Typing status
+
+## Connection to Backend
+
+The frontend connects to a Socket.IO server running at `http://localhost:8087`, which handles:
+- User registration
+- Message routing
+- Conversation storage
+- Status updates
